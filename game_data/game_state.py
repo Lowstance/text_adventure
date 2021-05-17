@@ -1,6 +1,7 @@
 """File which contains the state functions of the game
 """
 
+
 import game_data.character_generator as char_gen
 
 class GameState():
