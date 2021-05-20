@@ -16,16 +16,17 @@ def game_loop():
         choice = input("Enter action: ")
 
         if choice == "attack":
-            damage = player.attack()
-            enemy.attacked(damage)
+            state.action_attack(player, enemy)
 
         elif choice == "run":
             player.run()
             state.remove_enemy()
             continue
 
-        damage = enemy.attack()
-        player.attacked(damage)
+        elif choice == "heal":
+            player.character_heal(5)
+
+        state.action_attack(enemy, player)
 
         flag = state.last_state()
         if choice == '0':

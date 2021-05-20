@@ -8,6 +8,7 @@ class Character:
     def __init__(self, name, hit_points, damage):
         self.__name       = name
         self.__hit_points = hit_points
+        self.__MAX_LIFE   = hit_points
         self.__damage     = damage
 
     def attack(self):
@@ -32,6 +33,8 @@ class Character:
             print(self.__name, "suffered", damage, "points of damage")
 
         self.__hit_points -= damage
+        if (self.__hit_points < 0):
+            self.__hit_points = 0
 
         print("And has", self.__hit_points, "left")
 
@@ -51,6 +54,17 @@ class Character:
         """
         return bool(self.__hit_points <= 0)
 
+    def character_heal(self, heal_amount):
+        """Heals the character for a specified amount
+
+        Args:
+            heal_amount (integer): Heal amount
+        """
+        
+        self.__hit_points += heal_amount
+
+        if (self.__hit_points > self.__MAX_LIFE):
+            self.__hit_points = self.__MAX_LIFE
 
 class Player(Character):
     """Class that contains the functions and attributes relevant to the player

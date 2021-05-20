@@ -9,7 +9,7 @@ class GameState():
     """
 
     def __init__(self):
-        self.player = char_gen.CharacterGenerator.gen_player()
+        self.player = char_gen.PlayerGenerator.generate()
         self.enemy  = None 
 
     def start_state(self):
@@ -19,7 +19,7 @@ class GameState():
             Character: Enemy spawned
         """
         if self.enemy == None:
-            self.enemy = char_gen.CharacterGenerator.gen_enemy() 
+            self.enemy = char_gen.EnemyGenerator.generate() 
             print("You encountered {}".format(self.enemy.get_name()))
         return self.enemy
 
@@ -48,3 +48,13 @@ class GameState():
         """Removes an enemy from the game
         """
         self.enemy = None
+
+    def action_attack(self, character, target):
+        """Function which handles the attack action
+
+        Args:
+            character (Character): the character that attacks
+            target (Character): the character that is attacked
+        """
+        damage = character.attack()
+        target.attacked(damage)
