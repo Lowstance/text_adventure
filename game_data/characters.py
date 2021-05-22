@@ -6,10 +6,10 @@ class Character:
     """
 
     def __init__(self, name, hit_points, damage):
-        self.__name       = name
-        self.__hit_points = hit_points
-        self.__MAX_LIFE   = hit_points
-        self.__damage     = damage
+        self._name       = name
+        self._hit_points = hit_points
+        self._MAX_LIFE   = hit_points
+        self._damage     = damage
 
     def attack(self):
         """Function used to attack
@@ -18,8 +18,8 @@ class Character:
             damage: Damage of the attack
         """
 
-        print(self.__name, " attacked")
-        return self.__damage
+        print(self._name, "attacked")
+        return self._damage
 
     def attacked(self, damage):
         """Function to handle the incoming attack and the results
@@ -28,23 +28,23 @@ class Character:
             damage (int): Damage of the attack
         """
         if damage == 1:
-            print(self.__name, "suffered", damage, "point of damage")
+            print(self._name, "suffered", damage, "point of damage")
         else:
-            print(self.__name, "suffered", damage, "points of damage")
+            print(self._name, "suffered", damage, "points of damage")
 
-        self.__hit_points -= damage
-        if (self.__hit_points < 0):
-            self.__hit_points = 0
+        self._hit_points -= damage
+        if (self._hit_points < 0):
+            self._hit_points = 0
 
-        print("And has", self.__hit_points, "left")
+        print("And has", self._hit_points, "left")
 
     def get_name(self):
         """Get character name
 
         Returns:
-            self.__name: Name of the instance
+            self._name: Name of the instance
         """
-        return self.__name
+        return self._name
 
     def check_dead(self):
         """Check if the character is dead
@@ -52,7 +52,7 @@ class Character:
         Returns:
             Bool: Return if the character is dead
         """
-        return bool(self.__hit_points <= 0)
+        return bool(self._hit_points <= 0)
 
     def character_heal(self, heal_amount):
         """Heals the character for a specified amount
@@ -60,11 +60,12 @@ class Character:
         Args:
             heal_amount (integer): Heal amount
         """
-        
-        self.__hit_points += heal_amount
+ 
+        self._hit_points += heal_amount
 
-        if (self.__hit_points > self.__MAX_LIFE):
-            self.__hit_points = self.__MAX_LIFE
+        if (self._hit_points > self._MAX_LIFE):
+            self._hit_points = self._MAX_LIFE
+ 
 
 class Player(Character):
     """Class that contains the functions and attributes relevant to the player
@@ -73,7 +74,23 @@ class Player(Character):
         Character (Character): Super class Character
     """
 
+    def __init__(self, name, hit_points, damage):
+        super().__init__(name, hit_points, damage)
+        self.equipment = []
+
     def run(self):
         """Run from the battle
         """
         print("you ran")
+
+    def equip(self, item):
+        """Function to handle the equipment process of an item
+
+        Args:
+            item (Item): Item to equip
+        """
+
+        self.equipment.append(item)
+        self._MAX_LIFE   += item.health_increase
+        self._hit_points += item.health_increase
+        self._damage     += item.damage_increase
