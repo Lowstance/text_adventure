@@ -24,11 +24,11 @@ class PlayerGenerator(CharacterGenerator):
     @classmethod
     def generate(cls):
 
-        name       = input("Give a name: ")
-        hit_points = input("Give hit points: ")
-        damage     = input("Give damage: ")
+        name          = input("Give a name: ")
+        hit_points    = input("Give hit points: ")
+        damage_points = input("Give damage: ")
 
-        return chars.Player(name, int(hit_points), int(damage))
+        return chars.Player(name, int(hit_points), int(damage_points))
 
 class EnemyGenerator(CharacterGenerator):
     """Class used to generate enemies
@@ -37,6 +37,7 @@ class EnemyGenerator(CharacterGenerator):
         CharacterGenerator (class): Character generator class (inherits the 
         generate function)
     """
+    # Enemy array {name, hit_points, damage_points}
     ENEMY_ARRAY = {"Giant rat"         : [10 , 2],
                    "Giant squid"       : [12 , 3],
                    "Giant pigeon"      : [15 , 4],

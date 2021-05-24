@@ -21,20 +21,20 @@ class GameState():
         """
 
         def wrapper(self, *args, **kwargs):
-            self.start_state()
+            self.state_start()
             state(self, *args, **kwargs)
-            self.last_state()
+            self.state_last()
 
         return wrapper
 
-    def start_state(self):
+    def state_start(self):
         """Checks the state of the game and spawns enemies if needed
         """
         if self.enemy is None:
             self.enemy = char_gen.EnemyGenerator.generate()
             print("You encountered {}".format(self.enemy.get_name()))
 
-    def last_state(self):
+    def state_last(self):
         if self.enemy is not None:
             if self.enemy.check_dead():
                 self.enemy = None
@@ -46,26 +46,26 @@ class GameState():
 
         return True
 
-    def state_run(self):
+    def action_run(self):
         self.player.run()
-        self.remove_enemy()
+        self.check_remove_enemy()
 
-    def state_wait(self):
+    def action_wait(self):
         pass
 
     def choose_action(self):
         choice = input("Enter action: ")
-        action = Action(self.state_wait)
+        action = Action(self.action_wait)
 
         while (choice not in self.available_actions):
             print("Please pick a valid choice")
             choice = input("Enter action: ")
 
         if choice == "attack":
-            action = Action(self.action_attack, self.player, self.enemy)
+            action = Action(self.phase_damage, self.player, self.enemy)
 
         elif choice == "run":
-            action = Action(self.state_run)
+            action = Action(self.action_run)
 
         elif choice == "heal":
             action = Action(self.player.character_heal, 5)
@@ -79,26 +79,22 @@ class GameState():
         return action
 
     @execute_states
-    def action_state(self):
+    def state_action(self):
         action = self.choose_action()
         action.execute_action()
         if self.enemy is not None:
-            self.action_attack(self.enemy, self.player)
+            self.phase_damage(self.enemy, self.player)
 
-    def get_player(self):
-        """returns the game player
-
-        Returns:
-            Player: Player of the game
-        """
-        return self.player
-
-    def remove_enemy(self):
+    def check_remove_enemy(self):
         """Removes an enemy from the game
         """
         self.enemy = None
 
-    def action_attack(self, character, target):
+    def action_attack(self):
+        
+        pass
+
+    def phase_damage(self, character, target):
         """Function which handles the attack action
 
         Args:

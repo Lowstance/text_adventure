@@ -5,11 +5,11 @@ class Character:
     """Class used as a template to create characters
     """
 
-    def __init__(self, name, hit_points, damage):
-        self._name       = name
-        self._hit_points = hit_points
-        self._MAX_LIFE   = hit_points
-        self._damage     = damage
+    def __init__(self, name, hit_points, damage_points):
+        self._name          = name
+        self._hit_points    = hit_points
+        self._MAX_LIFE      = hit_points
+        self._damage_points = damage_points
 
     def attack(self):
         """Function used to attack
