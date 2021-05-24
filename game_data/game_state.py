@@ -7,6 +7,7 @@ import game_data.items as item
 class GameState():
     """Class which contains the state functions of the game
     """
+    available_actions = ["attack", "heal", "equip", "run", "end"]
 
     def __init__(self):
         self.player = char_gen.PlayerGenerator.generate()
@@ -56,25 +57,24 @@ class GameState():
         choice = input("Enter action: ")
         action = Action(self.state_wait)
 
+        while (choice not in self.available_actions):
+            print("Please pick a valid choice")
+            choice = input("Enter action: ")
+
         if choice == "attack":
-            #state.action_attack(player, enemy)
             action = Action(self.action_attack, self.player, self.enemy)
 
         elif choice == "run":
-            #player.run()
             action = Action(self.state_run)
-            #state.remove_enemy()
-            #continue
 
         elif choice == "heal":
-            #player.character_heal(5)
             action = Action(self.player.character_heal, 5)
 
         elif choice == "equip":
             action = Action(self.player.equip, item.Equipment("Bacon", 10, 15, 5))
-            #player.equip(item.Equipment("Bacon armor", 10, 15, 5))
 
-        #state.action_attack(enemy, player)
+        elif choice == "end":
+            exit()
 
         return action
 
@@ -82,7 +82,8 @@ class GameState():
     def action_state(self):
         action = self.choose_action()
         action.execute_action()
-        self.action_attack(self.enemy, self.player)
+        if self.enemy is not None:
+            self.action_attack(self.enemy, self.player)
 
     def get_player(self):
         """returns the game player
